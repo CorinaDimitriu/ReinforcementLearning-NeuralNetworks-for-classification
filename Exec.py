@@ -11,6 +11,7 @@ from Ppo import apply_ppo
 
 
 with open("Result.txt", "wt") as file:
-    file.write(("acc_nn = " + str(apply_nn(load_iris_dataset()[0], load_iris_dataset()[1], 3)) + "\n" +
-                "acc_ppo = " + str(apply_ppo(load_iris_dataset()[0], load_iris_dataset()[1], IrisEnvironment))))
+    file.write(("acc_nn = " + str(apply_nn(load_cifar10_dataset()[0], load_cifar10_dataset()[1], 10)) + "\n" +
+                "acc_ppo = " + str(apply_ppo(load_cifar10_dataset()[0], load_cifar10_dataset()[1],
+                                             Cifar10Environment))))
 

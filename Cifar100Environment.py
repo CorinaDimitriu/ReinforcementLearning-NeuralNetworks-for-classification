@@ -7,7 +7,7 @@ import numpy as np
 class Cifar100Environment(gym.Env, ABC):
     def __init__(self, dataset, images_per_episode=1, train=True):
         super().__init__()
-        self.action_space = gym.spaces.Discrete(20)
+        self.action_space = gym.spaces.Discrete(100)
         self.observation_space = gym.spaces.Box(low=0, high=1,
                                                 shape=(32, 32, 3, 1),
                                                 dtype=np.float32)

@@ -45,7 +45,7 @@ def load_cifar10_dataset():
 def load_cifar100_dataset():
     num_classes = 100
     # the data, split between train and test sets
-    (x_train, y_train), (x_test, y_test) = keras.datasets.cifar100.load_data("coarse")
+    (x_train, y_train), (x_test, y_test) = keras.datasets.cifar100.load_data("fine")
     # Scale images to the [0, 1] range
     x_train = x_train.astype("float32") / 255
     x_test = x_test.astype("float32") / 255
@@ -80,6 +80,3 @@ def normalize_iris(dataset):
         sample[1] = sample[1].astype("float32") / 4.4
         sample[2] = sample[2].astype("float32") / 6.9
         sample[3] = sample[3].astype("float32") / 2.5
-
-
-# load_iris_dataset()

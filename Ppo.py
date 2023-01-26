@@ -39,7 +39,7 @@ def eval_ppo(trained_model, testing_set, environment):
                 if reward[0] > 0:
                     correctly_predicted += 1
     except StopIteration:
-        # report = open("Accuracy.txt", "a")
-        # print('\nFinished validation with %f accuracy\n'
-        #       % ((float(correctly_predicted) / attempted) * 100), file=report)
+        report = open("Accuracy_ppo_cifar10.txt", "a")
+        print('\nFinished validation with %f accuracy\n'
+              % ((float(correctly_predicted) / attempted) * 100), file=report)
         return (float(correctly_predicted) / attempted) * 100

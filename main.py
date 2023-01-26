@@ -48,7 +48,9 @@ def draw_lineplot(accuracy_1, accuracy_2):
 
 def draw_boxplot(accuracy_1, accuracy_2):
     # algos = ["GD", "RL"]
-    accuracy_dict = {"GD": accuracy_1[0], "RL": accuracy_2[0]}
+    accuracy_1 = [max(running_list) for running_list in accuracy_1]
+    accuracy_2 = [max(running_list) for running_list in accuracy_2]
+    accuracy_dict = {"GD": accuracy_1, "RL": accuracy_2}
     accuracy_dataframe = pd.DataFrame(accuracy_dict)
     df_melted = pd.melt(accuracy_dataframe,
                         value_vars=["GD", "RL"],
@@ -63,9 +65,7 @@ def draw_boxplot(accuracy_1, accuracy_2):
 if __name__ == '__main__':
     accuracy_nn = []
     accuracy_ppo = []
-    for trial in range(1):
-        accuracy_nn.append(apply_nn(load_iris_dataset()[0], load_iris_dataset()[1], 3))
-        accuracy_ppo.append(apply_ppo(load_iris_dataset()[0], load_iris_dataset()[1], IrisEnvironment))
+    for trial in range(7):
         os.system("py Exec.py")
         while not os.path.exists("./Result.txt"):
             time.sleep(1)
@@ -74,5 +74,5 @@ if __name__ == '__main__':
             exec(initialise)
         accuracy_nn.append(acc_nn)
         accuracy_ppo.append(acc_ppo)
-    # draw_lineplot(accuracy_nn, accuracy_ppo)
+    draw_lineplot(accuracy_nn, accuracy_ppo)
     draw_boxplot(accuracy_nn, accuracy_ppo)

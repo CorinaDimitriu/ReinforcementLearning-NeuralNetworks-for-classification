@@ -37,7 +37,6 @@ def apply_nn(training_set, testing_set, classes):
     for epoch in range(50):
         nn_model.fit(x_train, y_train, epochs=1)  # train the model for 1 epoch
         accuracies.append(evaluate_nn(testing_set, nn_model))
-    nn_model.save("./Model_NN")
     return accuracies
 
 
@@ -54,8 +53,15 @@ def evaluate_nn(testing_set, trained_model):
         if np.argmax(predictions[i]) == y_test[i]:
             correctly_predicted += 1
 
-    # report = open("Accuracy.txt", "a")
-    # print('\nFinished validation with %f accuracy\n'
-    #       % ((float(correctly_predicted) / attempted) * 100), file=report)
+    report = open("Accuracy_nn_cifar10.txt", "a")
+    print('\nFinished validation with %f accuracy\n'
+          % ((float(correctly_predicted) / attempted) * 100), file=report)
     return (float(correctly_predicted) / attempted) * 100
+
+
+def apply_nn_without_evaluation(training_set, classes, epochs=10):
+    x_train, y_train = training_set
+    model = create_model(classes)
+    model.fit(x_train, y_train, epochs=epochs)
+    return model
 
