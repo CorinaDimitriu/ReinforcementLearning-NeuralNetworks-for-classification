@@ -14,7 +14,7 @@ def apply_ppo(training_set, testing_set, environment):
     training_env = DummyVecEnv([lambda: bench.Monitor(environment(
         (x_train, y_train), images_per_episode=1), logger.get_dir(), allow_early_resets=True)])
     with tf.compat.v1.variable_scope(tf.compat.v1.get_variable_scope(), reuse=tf.compat.v1.AUTO_REUSE):
-        for epoch in range(50):
+        for epoch in range(100):
             ppo_trained_model = ppo2.learn(env=training_env, network='mlp', num_layers=2,
                                                     num_hidden=64, nsteps=32,
                                                     total_timesteps=x_train.shape[0],
@@ -24,8 +24,8 @@ def apply_ppo(training_set, testing_set, environment):
 
 
 def eval_ppo(trained_model, testing_set, environment):
-    attempted, correctly_predicted = 0, 0
     x_test, y_test = testing_set
+    attempted, correctly_predicted = x_test.shape[0], 0
     testing_env = DummyVecEnv([lambda: environment(images_per_episode=1,
                                                         dataset=(x_test, y_test),
                                                         train=False)])
@@ -35,11 +35,10 @@ def eval_ppo(trained_model, testing_set, environment):
             while not done[0]:
                 observation, reward, done, _ = testing_env.step(
                     trained_model.step(obs[None])[0])
-                attempted += 1
                 if reward[0] > 0:
                     correctly_predicted += 1
     except StopIteration:
-        report = open("Accuracy_ppo_cifar10.txt", "a")
+        report = open("Accuracy_ppo_cifar100.txt", "a")
         print('\nFinished validation with %f accuracy\n'
               % ((float(correctly_predicted) / attempted) * 100), file=report)
         return (float(correctly_predicted) / attempted) * 100
